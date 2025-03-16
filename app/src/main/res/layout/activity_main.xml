@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offWhite"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_round_corner_shape"
+        android:paddingHorizontal="10dp"
+        android:text="Make Notification"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnSecondNotification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/btnSecondNotification"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/orange_round_corner_shape"
+    android:paddingHorizontal="10dp"
+    android:text="Make Second Notification"
+    android:textColor="@color/white"
+    app:layout_constraintBottom_toTopOf="@id/btnInboxStyleNotification"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/btnNotification" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnInboxStyleNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_round_corner_shape"
+        android:paddingHorizontal="10dp"
+        android:text="Make inbox style notification"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/btnBigTextNotification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSecondNotification" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBigTextNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_round_corner_shape"
+        android:paddingHorizontal="10dp"
+        android:text="Make big text Notification"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnImgNotification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnInboxStyleNotification" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnImgNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_round_corner_shape"
+        android:paddingHorizontal="10dp"
+        android:text="Make big image Notification"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnMsgReplayNotification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBigTextNotification" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMsgReplayNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_round_corner_shape"
+        android:paddingHorizontal="10dp"
+        android:text="Make messaging notifications"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnImgNotification" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
