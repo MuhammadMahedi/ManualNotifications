@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val NOTIFICATION_ID_BIG_TEXT = 4
     private val NOTIFICATION_ID_PICTURE = 5
     private val NOTIFICATION_ID_MESSAGING = 6
+    private val NOTIFICATION_ID_ACTIONABLE = 7
     private val KEY_TEXT_REPLY = "key_text_reply"
 
     companion object {
@@ -101,7 +102,15 @@ class MainActivity : AppCompatActivity() {
 
             btnMsgReplayNotification.setOnClickListener {
                 if(isNotificationAllowed())
-                    makeMessagingStyleNotification()
+                     makeMessagingStyleNotification()
+                else
+                    showPermissionRequiredToast()
+
+            }
+
+            btnActionableNotification.setOnClickListener {
+                if(isNotificationAllowed())
+                    makeActionableNotification()
                 else
                     showPermissionRequiredToast()
 
@@ -276,6 +285,55 @@ class MainActivity : AppCompatActivity() {
 
 
         notificationManager.notify(NOTIFICATION_ID_MESSAGING, builder.build())
+    }
+
+
+    private fun makeActionableNotification() {
+
+        val remoteInput = RemoteInput.Builder(KEY_TEXT_REPLY)
+            .setLabel("Type your reply...")
+            .build()
+
+        val replyIntent = Intent(this, ReplyReceiver::class.java)
+        val replyPendingIntent = PendingIntent.getBroadcast(
+            this, 0, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+
+        val replyAction = NotificationCompat.Action.Builder(
+            R.drawable.ic_launcher_foreground, "Reply", replyPendingIntent
+        )
+            .addRemoteInput(remoteInput)
+            .build()
+
+        // Mark as Read Action
+        val markAsReadIntent = Intent(this, ReplyReceiver::class.java)
+        val markAsReadPendingIntent = PendingIntent.getBroadcast(
+            this, 1, markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+
+        val markAsReadAction = NotificationCompat.Action.Builder(
+            R.drawable.ic_launcher_foreground, "Mark as Read", markAsReadPendingIntent
+        )
+            .build()
+
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent, PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // Build Notification
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID_ONE)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle("New Message")
+            .setContentText("Alice: Hey, how are you?")
+            .addAction(replyAction) // Add Reply Action
+            .addAction(markAsReadAction) // Add Mark as Read Action
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+
+        notificationManager.notify(NOTIFICATION_ID_ACTIONABLE, notification)
     }
 
 

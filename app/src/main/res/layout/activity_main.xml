@@ -81,10 +81,23 @@
         android:paddingHorizontal="10dp"
         android:text="Make messaging notifications"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnActionableNotification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnImgNotification" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnActionableNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_round_corner_shape"
+        android:paddingHorizontal="10dp"
+        android:text="Make actionable notification"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMsgReplayNotification" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

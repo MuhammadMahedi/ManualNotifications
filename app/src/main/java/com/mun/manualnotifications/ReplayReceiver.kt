@@ -25,6 +25,8 @@ class ReplyReceiver : BroadcastReceiver() {
                 .build()
 
             notificationManager.notify(104, repliedNotification)*/
+        }else{
+            Toast.makeText(context, "Marked as read", Toast.LENGTH_SHORT).show()
         }
     }
 }
