@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,21 +28,27 @@ import com.bumptech.glide.request.transition.Transition
 import com.mun.manualnotifications.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    
-    private lateinit var  binding:ActivityMainBinding
-    private val CHANNEL_ID_ONE = "Mahedi"
-    private val CHANNEL_ID_Two = "Munna"
+
+    private lateinit var binding: ActivityMainBinding
+    private val CHANNEL_ID_ONE = "Important"
+    private val CHANNEL_ID_TWO = "Default"
+    private val CHANNEL_ID_THREE = "Less Important"
     private val NOTIFICATION_ID_ONE = 1
     private val NOTIFICATION_ID_TWO = 2
+    private val NOTIFICATION_ID_THREE = 3
     private val NOTIFICATION_ID_INBOX_STYLE = 3
     private val NOTIFICATION_ID_BIG_TEXT = 4
     private val NOTIFICATION_ID_PICTURE = 5
     private val NOTIFICATION_ID_MESSAGING = 6
     private val NOTIFICATION_ID_ACTIONABLE = 7
     private val KEY_TEXT_REPLY = "key_text_reply"
+    private val permissions = arrayOf(
+        Manifest.permission.POST_NOTIFICATIONS
+    )
+    private val requestCode = 101
 
     companion object {
-       lateinit var notificationManager: NotificationManager
+        lateinit var notificationManager: NotificationManager
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,50 +57,58 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbar.setPadding(0, getStatusBarHeight(), 0, 10)
+
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Set the default night mode globally
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        createNotificationChannel()
-        
+        if (!hasPermissions()) {
+            requestPermissions()
+        }
+
+        createNotificationChannelImportant()
+        createNotificationChannelDefault()
+        createNotificationChannelLessImportant()
+
         binding.apply {
             btnNotification.setOnClickListener {
-                if(isNotificationAllowed())
-                makeNotification("Mahedi Said", "This is notification One",1)
-                else{
+                if (isNotificationAllowed())
+                    makeNotification("Simple Notification", "This is a simple notification", NOTIFICATION_ID_ONE)
+                else {
                     showPermissionRequiredToast()
                 }
             }
             btnSecondNotification.setOnClickListener {
-                if(isNotificationAllowed())
-                makeNotification("Munna Said", "Notification 2 Overrides the first one",2)
-                else{
+                if (isNotificationAllowed())
+                    makeNotification("Important Notification", "This is a notification with Heads-Up", NOTIFICATION_ID_TWO)
+                else {
                     showPermissionRequiredToast()
                 }
             }
 
             btnInboxStyleNotification.setOnClickListener {
-                if(isNotificationAllowed())
-                makeInboxStyleNotification()
-                else{
-                showPermissionRequiredToast()
+                if (isNotificationAllowed())
+                    makeInboxStyleNotification()
+                else {
+                    showPermissionRequiredToast()
                 }
             }
 
             btnBigTextNotification.setOnClickListener {
-                if(isNotificationAllowed())
-                makeBigTextStyleNotification()
-                else{
-                showPermissionRequiredToast()
+                if (isNotificationAllowed())
+                    makeBigTextStyleNotification()
+                else {
+                    showPermissionRequiredToast()
                 }
             }
 
             btnImgNotification.setOnClickListener {
-                if(AppUtil.isInternetAvailable(this@MainActivity)){
-                    if(isNotificationAllowed())
+                if (AppUtil.isInternetAvailable(this@MainActivity)) {
+                    if (isNotificationAllowed())
                         makeBigPictureStyleNotification()
-                    else{
+                    else {
                         showPermissionRequiredToast()
                     }
                 }
@@ -101,33 +116,88 @@ class MainActivity : AppCompatActivity() {
             }
 
             btnMsgReplayNotification.setOnClickListener {
-                if(isNotificationAllowed())
-                     makeMessagingStyleNotification()
+                if (isNotificationAllowed())
+                    makeMessagingStyleNotification()
                 else
                     showPermissionRequiredToast()
 
             }
 
             btnActionableNotification.setOnClickListener {
-                if(isNotificationAllowed())
+                if (isNotificationAllowed())
                     makeActionableNotification()
                 else
                     showPermissionRequiredToast()
 
             }
+
+            btnSilentNotification.setOnClickListener {
+                if (isNotificationAllowed())
+                    makeNotification("Silent Notification", "This is a silent notification", NOTIFICATION_ID_THREE)
+                else {
+                    showPermissionRequiredToast()
+                }
+            }
         }
 
 
     }
-    
-    
-    private fun makeNotification(title:String,text:String,notificationId:Int) {
+
+
+    private fun hasPermissions(): Boolean {
+        return permissions.all { permission ->
+            ActivityCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun requestPermissions() {
+        requestPermissions(permissions, requestCode)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == this.requestCode) {
+            val deniedPermissions = permissions
+                .zip(grantResults.toList()) // Combine permissions with grant results
+                .filter { it.second != PackageManager.PERMISSION_GRANTED } // Filter out denied permissions
+                .map { it.first } // Extract the denied permissions
+
+            if (deniedPermissions.isNotEmpty()) {
+                Log.d("PermissionLog", "Permissions denied: $deniedPermissions")
+            } else {
+                Log.d("PermissionLog", "All permissions granted")
+            }
+        }
+    }
+
+
+    private fun makeNotification(title: String, text: String, notificationId: Int) {
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent, PendingIntent.FLAG_IMMUTABLE
         )
 
-        val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID_ONE)
+
+        val builder = NotificationCompat.Builder(
+            applicationContext,
+            when(notificationId){
+                1-> CHANNEL_ID_TWO //default notification normal one
+                2-> CHANNEL_ID_ONE //important notification
+                3-> CHANNEL_ID_THREE //less important notification
+                else-> CHANNEL_ID_TWO
+            }
+
+
+
+        )
             .setSmallIcon(R.drawable.ic_launcher_foreground) // Add an icon in res/drawable
             .setContentTitle(title)
             .setContentText(text)
@@ -172,7 +242,7 @@ class MainActivity : AppCompatActivity() {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
 
-        notificationManager. notify(NOTIFICATION_ID_INBOX_STYLE, builder.build())
+        notificationManager.notify(NOTIFICATION_ID_INBOX_STYLE, builder.build())
 
     }
 
@@ -203,7 +273,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeBigPictureStyleNotification() {
-        val imageUrl = "https://www.psdstack.com/wp-content/uploads/2019/08/copyright-free-images-750x420.jpg" // Replace with your actual image URL
+        val imageUrl =
+            "https://www.psdstack.com/wp-content/uploads/2019/08/copyright-free-images-750x420.jpg" // Replace with your actual image URL
 
         Glide.with(this)
             .asBitmap()
@@ -239,7 +310,7 @@ class MainActivity : AppCompatActivity() {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true) // Dismiss when tapped
 
-        notificationManager. notify(NOTIFICATION_ID_PICTURE, builder.build())
+        notificationManager.notify(NOTIFICATION_ID_PICTURE, builder.build())
     }
 
 
@@ -267,12 +338,24 @@ class MainActivity : AppCompatActivity() {
 
         val messagingStyle = NotificationCompat.MessagingStyle(
             Person.Builder()
-            .setName("You")
-            .build()
+                .setName("You")
+                .build()
         )
-            .addMessage("Hey! How are you?", System.currentTimeMillis() - 60000, Person.Builder().setName("Alice").build())
-            .addMessage("Let's catch up later.", System.currentTimeMillis() - 30000, Person.Builder().setName("Bob").build())
-            .addMessage("Sure! Let me know the time.", System.currentTimeMillis(), Person.Builder().setName("You").build())
+            .addMessage(
+                "Hey! How are you?",
+                System.currentTimeMillis() - 60000,
+                Person.Builder().setName("Alice").build()
+            )
+            .addMessage(
+                "Let's catch up later.",
+                System.currentTimeMillis() - 30000,
+                Person.Builder().setName("Bob").build()
+            )
+            .addMessage(
+                "Sure! Let me know the time.",
+                System.currentTimeMillis(),
+                Person.Builder().setName("You").build()
+            )
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_ONE)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -308,7 +391,10 @@ class MainActivity : AppCompatActivity() {
         // Mark as Read Action
         val markAsReadIntent = Intent(this, ReplyReceiver::class.java)
         val markAsReadPendingIntent = PendingIntent.getBroadcast(
-            this, 1, markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            this,
+            1,
+            markAsReadIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
 
         val markAsReadAction = NotificationCompat.Action.Builder(
@@ -337,10 +423,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannelImportant() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "MyChannel"
-            val descriptionText = "Channel for notifications"
+            val name = "ImportantChannel"
+            val descriptionText = "Channel for important notifications"
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CHANNEL_ID_ONE, name, importance).apply {
                 description = descriptionText
@@ -352,17 +438,59 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun createNotificationChannelDefault() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "DefaultChannel"
+            val descriptionText = "Channel for default notifications"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID_TWO, name, importance).apply {
+                description = descriptionText
+            }
 
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 
-    private fun isNotificationAllowed() :Boolean{
+    private fun createNotificationChannelLessImportant() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "LessImportantChannel"
+            val descriptionText = "Channel for less important notifications"
+            val importance = NotificationManager.IMPORTANCE_LOW
+            val channel = NotificationChannel(CHANNEL_ID_THREE, name, importance).apply {
+                description = descriptionText
+            }
+
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
+    }
+
+    private fun isNotificationAllowed(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
         } else {
             true // No need to ask for permission on Android 12 and below
-        }    }
+        }
+    }
 
-    private fun showPermissionRequiredToast(){
-        Toast.makeText(this@MainActivity, "Notification Permission Required", Toast.LENGTH_SHORT).show()
+    private fun showPermissionRequiredToast() {
+        Toast.makeText(this@MainActivity, "Notification Permission Required", Toast.LENGTH_SHORT)
+            .show()
     }
 
 }

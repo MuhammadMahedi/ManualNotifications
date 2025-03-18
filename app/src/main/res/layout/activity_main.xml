@@ -8,96 +8,160 @@
     android:background="@color/offWhite"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnNotification"
-        android:layout_width="wrap_content"
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/white"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/orange_round_corner_shape"
-        android:paddingHorizontal="10dp"
-        android:text="Make Notification"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnSecondNotification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
 
-    <androidx.appcompat.widget.AppCompatButton
-    android:id="@+id/btnSecondNotification"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/orange_round_corner_shape"
-    android:paddingHorizontal="10dp"
-    android:text="Make Second Notification"
-    android:textColor="@color/white"
-    app:layout_constraintBottom_toTopOf="@id/btnInboxStyleNotification"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/btnNotification" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manual Notifications"
+            android:layout_marginVertical="10dp"
+            android:layout_gravity="center"
+            android:textSize="20sp"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnInboxStyleNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/orange_round_corner_shape"
-        android:paddingHorizontal="10dp"
-        android:text="Make inbox style notification"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/btnBigTextNotification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSecondNotification" />
+    </androidx.appcompat.widget.Toolbar>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBigTextNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/orange_round_corner_shape"
-        android:paddingHorizontal="10dp"
-        android:text="Make big text Notification"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnImgNotification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnInboxStyleNotification" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnImgNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/orange_round_corner_shape"
-        android:paddingHorizontal="10dp"
-        android:text="Make big image Notification"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnMsgReplayNotification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBigTextNotification" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnMsgReplayNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/orange_round_corner_shape"
-        android:paddingHorizontal="10dp"
-        android:text="Make messaging notifications"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnActionableNotification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnImgNotification" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnActionableNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/orange_round_corner_shape"
-        android:paddingHorizontal="10dp"
-        android:text="Make actionable notification"
-        android:textColor="@color/white"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/commonBg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMsgReplayNotification" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make Simple Notification"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/btnSecondNotification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSecondNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make Notification With Heads Up"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/btnInboxStyleNotification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnNotification" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnInboxStyleNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make inbox style notification"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/btnBigTextNotification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSecondNotification" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBigTextNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make big text Notification"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/btnImgNotification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnInboxStyleNotification" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnImgNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make big image Notification"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/btnMsgReplayNotification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnBigTextNotification" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMsgReplayNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make messaging notifications"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/btnActionableNotification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnImgNotification" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnActionableNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make actionable notification"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/btnSilentNotification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnMsgReplayNotification" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSilentNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/orange_round_corner_shape"
+                android:paddingHorizontal="10dp"
+                android:text="Make silent notification"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnActionableNotification" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
