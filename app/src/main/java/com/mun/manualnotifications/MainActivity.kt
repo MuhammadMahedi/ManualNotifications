@@ -198,7 +198,7 @@ class MainActivity : AppCompatActivity() {
 
 
         )
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Add an icon in res/drawable
+            .setSmallIcon(R.drawable.img_notification) // Add an icon in res/drawable
             .setContentTitle(title)
             .setContentText(text)
 //            .setPriority(NotificationCompat.PRIORITY_HIGH)  only needed for android 7 or below
@@ -233,7 +233,7 @@ class MainActivity : AppCompatActivity() {
             .setSummaryText("+3 more")
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_ONE)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Ensure this icon exists
+            .setSmallIcon(R.drawable.img_notification) // Ensure this icon exists
             .setContentTitle("New Messages")
             .setContentText("You have 3 new messages") // Shown when collapsed
             .setStyle(inboxStyle) // Apply InboxStyle
@@ -260,7 +260,7 @@ class MainActivity : AppCompatActivity() {
             .setSummaryText("Android 15 Features")
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_ONE)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Ensure this icon exists
+            .setSmallIcon(R.drawable.img_notification) // Ensure this icon exists
             .setContentTitle("Breaking News") // Shown when collapsed
             .setContentText("New Android 15 update is here!") // Short text
             .setStyle(bigTextStyle) // Apply BigTextStyle
@@ -301,7 +301,7 @@ class MainActivity : AppCompatActivity() {
             .setSummaryText("Check out this awesome picture!")
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_ONE)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Ensure this icon exists
+            .setSmallIcon(R.drawable.img_notification) // Ensure this icon exists
             .setContentTitle("New Photo Alert") // Shown when collapsed
             .setContentText("Tap to view the full image.") // Short text
             .setStyle(bigPictureStyle) // Apply BigPictureStyle
@@ -326,7 +326,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val replyAction = NotificationCompat.Action.Builder(
-            R.drawable.ic_launcher_foreground, "Reply", replyPendingIntent
+            R.drawable.img_notification, "Reply", replyPendingIntent
         )
             .addRemoteInput(remoteInput)
             .build()
@@ -358,7 +358,7 @@ class MainActivity : AppCompatActivity() {
             )
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_ONE)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.img_notification)
             .setStyle(messagingStyle)
             .addAction(replyAction)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -383,7 +383,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val replyAction = NotificationCompat.Action.Builder(
-            R.drawable.ic_launcher_foreground, "Reply", replyPendingIntent
+            R.drawable.img_notification, "Reply", replyPendingIntent
         )
             .addRemoteInput(remoteInput)
             .build()
@@ -398,7 +398,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val markAsReadAction = NotificationCompat.Action.Builder(
-            R.drawable.ic_launcher_foreground, "Mark as Read", markAsReadPendingIntent
+            R.drawable.img_notification, "Mark as Read", markAsReadPendingIntent
         )
             .build()
 
@@ -409,7 +409,7 @@ class MainActivity : AppCompatActivity() {
 
         // Build Notification
         val notification = NotificationCompat.Builder(this, CHANNEL_ID_ONE)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.img_notification)
             .setContentTitle("New Message")
             .setContentText("Alice: Hey, how are you?")
             .addAction(replyAction) // Add Reply Action
